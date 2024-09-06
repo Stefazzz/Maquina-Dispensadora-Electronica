@@ -1,3 +1,4 @@
+
 const modalContainer = document.getElementById("modal-container");
 const modalOverlay = document.getElementById("modal-overlay");
 const cartBtn = document.getElementById("car-btn");
@@ -74,8 +75,60 @@ const displayCart = () => {
     modalFooter.className = "modal-footer"
     modalFooter.innerHTML =`
     <div class ="total-price">Total ${total}</div>
-    `
+    <button class="btn-primary" id="checkout-btn">Ir a pagar</button>
+     <div id="wallet_container"></div>`;
     modalContainer.append(modalFooter);
+
+    //INTEGRACION DE MERCADO PAGO
+    //AQUI VA LA PUBLIC KEY 
+    //IMPORTANTE!!
+    const mp = new MercadoPago("TEST-d66d96d1-47b8-456e-9f39-6343302e6601",{
+        locale: "es-MEX",
+    });
+
+        //Informacion del carrito
+        const generateCartDescription  = () => {
+            return cart.map(product => `${product.productName} (x${product.quanty})`).join(', ');
+        };
+        
+    document.getElementById("checkout-btn").addEventListener("click", async() =>{
+        try{
+            const orderData ={
+                title: generateCartDescription(),
+                quantity: 1,
+                price: total,
+            };
+
+            const response = await fetch("http://localhost:3000/create_preference",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            const preference = await response.json();
+            createCheckoutButton(preference.id);
+
+        }catch(error){
+            alert("Error!");
+        }
+    });
+
+    const createCheckoutButton = (preferenceId) => {
+        const bricksBuilder = mp.bricks();
+
+        const renderComponent = async () => {
+            if(window.checkoutButton) window.checkoutButton.unmount();
+
+            await bricksBuilder.create("wallet", "wallet_container", {
+                initialization: {
+                    preferenceId: preferenceId,
+                },
+            });
+        };
+        renderComponent();
+    };
 }else{
     const modalText = document.createElement("h2");
     modalText.className = "modal-body";
