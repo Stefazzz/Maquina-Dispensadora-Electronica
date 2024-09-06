@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors";
 
 // SDK de Mercado Pago
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
 // Agrega credenciales
 //AQUI VA EL ACCES TOKEN
-const client = new MercadoPagoConfig({ accessToken: 'TEST-8450248338878252-090414-2a2ae4250848ddeabfd96dd510aa1ef5-1046078811' });
+const client = new MercadoPagoConfig({ accessToken: 'APP_USR-3100103024409153-090616-2f2f94779946c739397e195ac4c7a08c-1046078811' });
 
 
 const app = express()
@@ -36,7 +36,7 @@ app.post("/create_preference", async (req,res) => {
                 pending: "https://www.google.com/"
             },
             auto_return: "approved",
-            notification_url: "https://742b-2800-484-277d-b500-817b-8a54-b1ab-a89c.ngrok-free.app/webhook"
+            notification_url: "https://fc77-2800-484-277d-b500-3416-7af8-ebde-17c6.ngrok-free.app/webhook"
         };
         const preference = new Preference(client);
         const result = await preference.create({ body });   
@@ -53,7 +53,9 @@ app.post("/create_preference", async (req,res) => {
 
 //esto es para el tema de las notificaciones
 app.post("/webhook", async function (req,res){
-    const paymentId = req.query
+    const paymentId = req.query.id;
+    //  console.log({payment})
+    //console.log("prueba")
 
     try{
         const response = await fetch (`https://api.mercadopago.com/v1/payments/${paymentId}`, {
