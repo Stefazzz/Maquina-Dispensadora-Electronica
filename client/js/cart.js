@@ -85,7 +85,7 @@ const displayCart = () => {
 
         // INTEGRACION DE MERCADO PAGO
         //public key
-        const mp = new MercadoPago("APP_USR-514ab97c-db89-4e76-b436-38316371c20d", {
+        const mp = new MercadoPago("APP_USR-4e2f244f-c2c2-4702-9a30-c373255367de", {
             locale: "es-MEX",
         });
 
@@ -131,6 +131,7 @@ const displayCart = () => {
                 checkoutButton = await bricksBuilder.create("wallet", "wallet_container", {
                     initialization: {
                         preferenceId: preferenceId,
+                        redirectMode: 'modal',
                     },
                 });
             };
