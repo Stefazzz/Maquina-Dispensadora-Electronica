@@ -1,3 +1,5 @@
+//MENSAJE IMPORTANTE!!! DEBIDO A LA POLITICA DE PRIVACIDAD DE MICROSOFT EDGE, 
+//BLOQUEA LA POSIBILIDAD DE REALIZAR LOS PAGOS, POR TANTO SE HA USADO OPERA PARA LA INTEGRACION DEL PROYECTO
 const modalContainer = document.getElementById("modal-container");
 const modalOverlay = document.getElementById("modal-overlay");
 const cartBtn = document.getElementById("car-btn");
@@ -86,7 +88,7 @@ const displayCart = () => {
         // INTEGRACION DE MERCADO PAGO
         //public key
         const mp = new MercadoPago("APP_USR-4e2f244f-c2c2-4702-9a30-c373255367de", {
-            locale: "es-MEX",
+            locale: "es-MX",
         });
 
         const generateCartDescription = () => {
@@ -113,6 +115,7 @@ const displayCart = () => {
                 createCheckoutButton(preference.id);
 
             } catch (error) {
+                console.log(error);
                 alert("Error!");
             }
         });

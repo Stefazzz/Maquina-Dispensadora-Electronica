@@ -54,7 +54,7 @@ app.post("/create_preference", async (req,res) => {
 //esto es para el tema de las notificaciones
 app.post("/webhook", async function (req,res){
     const paymentId = req.query.id;
-    //  console.log({payment})
+    //console.log({payment})
     //console.log("prueba")
 
     try{
